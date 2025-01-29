@@ -1,10 +1,11 @@
 from pydantic_ai import Agent, RunContext
+from pydantic import BaseModel
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.models.openai import OpenAIModel
 import logfire
 from colorama import Fore
 from dotenv import load_dotenv
- 
+from tools.tools import getOCR, extractpdf
 import os
 from crawl4ai import AsyncWebCrawler
 
@@ -48,20 +49,66 @@ Please confirm if Dr Lam is the first practitioner you have seen for warts condi
 Please confirm if any previous treatment has been done to treat warts e.g. Co2 or other cauterization.
 
 """
+class Test(BaseModel):
+    test_date: str
+    complaint: str
+    test_result: str
+    follow_up: str
 
-print(question)
+class MedicalReport(BaseModel):
+    dr_name: str
+ 
+    check_result: list[Test]
+    patient_info: str
+    patient_height: int
+    patient_weight: int
+    lab_findings: str
+
+class FileInfo(BaseModel):
+    filename: str
+
+
+ 
 agent = Agent(
-    #model="openai:gpt-4o-mini", 
+    model="openai:gpt-4o-mini", 
     #model='groq:llama-3.3-70b-versatile',
     #model=mm_model,
-    ollama_model,
+    #ollama_model,
     #model="google-gla:gemini-2.0-flash-exp",
+    deps_type=FileInfo, 
+    result_type=MedicalReport,
     system_prompt="You are a underwriter who can provide profession advice to the team for the claim request form, all reply need to be in Chinese"
 )
 
  
  
 from crawl4ai import AsyncWebCrawler
+
+@agent.tool
+async def verify_doctor_name(ctx: RunContext[str], dr_name) -> bool: 
+    """if any doctor name shown, verify doctor name"""
+    print(Fore.CYAN, dr_name)
+    return True
+
+
+@agent.tool
+async def get_medical_certificate(ctx: RunContext[int], image_file) -> str:
+    """get medical report"""
+    print(Fore.RED, image_file)
+    result = await getOCR(image_file)
+    
+    #print(Fore.RED, files, result)
+    return result
+
+@agent.tool
+async def extract_pdf2images(ctx: RunContext[FileInfo], filename) -> []:
+    """if user provide PDF, it will convert pdf to images"""
+    
+    
+    files = await extractpdf(filename)
+    print(Fore.YELLOW, files)
+    return files
+
 
 #@agent.tool
 async def get_product_detail(ctx: RunContext[int]):
@@ -87,11 +134,16 @@ async def get_patient_inf(ctx: RunContext):
 
 
 result = agent.run_sync(
-    question
+    """prepare the medical certificate for an insurnace claim, you can get the information from the medical certificate
+    , file in 'pdfs/p1.pdf'
+    """
 #    "what is liver function that cannot have Life Cover"
 #    #"who is ryan kim in fwd team?"
     )
+
 print(Fore.BLUE, (result.data))
+
+ 
  
 
 

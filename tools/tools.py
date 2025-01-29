@@ -2,12 +2,13 @@ from google import genai
 from dotenv import load_dotenv
 import os
 import PIL.Image
-
+import asyncio
+from pdf2image import convert_from_path
 
 load_dotenv()  # take environment variables from .env.
 client = genai.Client(   api_key=os.environ["GEMINI_API_KEY"])
 
-def getOCR(path):
+async def getOCR(path):
 
     image1  = PIL.Image.open(path)
     
@@ -20,4 +21,19 @@ def getOCR(path):
 
     return(response.text)
 
-print(getOCR("dr3.jpg"))
+
+async def extractpdf(path) -> []:
+    results = []
+
+    # incase of Linux we don't have to provide the popper_path parameter
+    images = convert_from_path(
+       path)
+
+    for i in range(len(images)):
+        # Save pages as images in the pdf
+        filename = f'{path}{i+1}.png'
+        images[i].save(filename , 'PNG')
+        results.append(filename)
+    return results
+
+ 
