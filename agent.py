@@ -12,7 +12,7 @@ logfire.configure()
 load_dotenv()  # take environment variables from .env.
  
 ollama_model = OllamaModel(
-    model_name='llama3-groq-tool-use',  
+    model_name='deepseek-r1:1.5b',  
     base_url='http://localhost:11434/v1',  
 )
 
@@ -46,15 +46,17 @@ Please confirm the exact date of onset of symptoms (dd/mm/yyyy)?
 Please advise if you have ever seen any other medical practitioner for warts condition.
 Please confirm if Dr Lam is the first practitioner you have seen for warts condition.
 Please confirm if any previous treatment has been done to treat warts e.g. Co2 or other cauterization.
+
 """
 
 print(question)
 agent = Agent(
     #model="openai:gpt-4o-mini", 
     #model='groq:llama-3.3-70b-versatile',
-    model=mm_model,
+    #model=mm_model,
+    ollama_model,
     #model="google-gla:gemini-2.0-flash-exp",
-    system_prompt="You are a underwriter who can provide profession advice to the team for the claim request form"
+    system_prompt="You are a underwriter who can provide profession advice to the team for the claim request form, all reply need to be in Chinese"
 )
 
  
