@@ -5,7 +5,7 @@ from transformers.image_utils import load_image
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 print(DEVICE)
 # Load images
-image1 = load_image("https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg")
+image1 = load_image("cached/pdfs/p1.pdf1.png")
 image2 = load_image("https://huggingface.co/spaces/merve/chameleon-7b/resolve/main/bee.jpg")
 # Initialize processor and model
 

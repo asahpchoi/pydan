@@ -3,11 +3,14 @@ from pydantic import BaseModel
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.models.openai import OpenAIModel
 import logfire
+import json
 from colorama import Fore
 from dotenv import load_dotenv
 from tools.tools import getOCR, extractpdf
 import os
 from crawl4ai import AsyncWebCrawler
+from pydantic_ai.usage import UsageLimits
+from db import log
 
 logfire.configure()
 load_dotenv()  # take environment variables from .env.
@@ -34,29 +37,30 @@ mm_model = OpenAIModel(
 #agent = Agent(model=ds_model)
 
 question = """
-Condition: Itchy and painful keloid
-Please confirm the exact date of onset of keloid.
-Please advise where did the keloid come from e.g. accident/injury details, date of accident/injury
-Please confirm the exact date of keloid starting to get itchy and painful
-Please advise if you have ever seen any other medical practitioner for keloid condition.
-Please confirm if Dr Lam is the first practitioner you have seen for keloid condition.
-Please confirm if any previous treatment has been done to treat keloid.  
-Condition: Viral warts
- Please confirm if this is the first time you have had warts. If not please provide date for previous condition.
-Please confirm the exact date of onset of symptoms (dd/mm/yyyy)? 
-Please advise if you have ever seen any other medical practitioner for warts condition.
-Please confirm if Dr Lam is the first practitioner you have seen for warts condition.
-Please confirm if any previous treatment has been done to treat warts e.g. Co2 or other cauterization.
+    Condition: Itchy and painful keloid
+    Please confirm the exact date of onset of keloid.
+    Please advise where did the keloid come from e.g. accident/injury details, date of accident/injury
+    Please confirm the exact date of keloid starting to get itchy and painful
+    Please advise if you have ever seen any other medical practitioner for keloid condition.
+    Please confirm if Dr Lam is the first practitioner you have seen for keloid condition.
+    Please confirm if any previous treatment has been done to treat keloid.  
+    Condition: Viral warts
+    Please confirm if this is the first time you have had warts. If not please provide date for previous condition.
+    Please confirm the exact date of onset of symptoms (dd/mm/yyyy)? 
+    Please advise if you have ever seen any other medical practitioner for warts condition.
+    Please confirm if Dr Lam is the first practitioner you have seen for warts condition.
+    Please confirm if any previous treatment has been done to treat warts e.g. Co2 or other cauterization.
 
 """
 class Test(BaseModel):
     test_date: str
-    complaint: str
+    reason: str
     test_result: str
     follow_up: str
 
 class MedicalReport(BaseModel):
     dr_name: str
+    dr_name_isVerified: bool
  
     check_result: list[Test]
     patient_info: str
@@ -77,7 +81,8 @@ agent = Agent(
     #model="google-gla:gemini-2.0-flash-exp",
     deps_type=FileInfo, 
     result_type=MedicalReport,
-    system_prompt="You are a underwriter who can provide profession advice to the team for the claim request form, all reply need to be in Chinese"
+    result_retries=20,
+ 
 )
 
  
@@ -95,7 +100,9 @@ async def verify_doctor_name(ctx: RunContext[str], dr_name) -> bool:
 async def get_medical_certificate(ctx: RunContext[int], image_file) -> str:
     """get medical report"""
     print(Fore.RED, image_file)
+    print(Fore.RED, ctx)
     result = await getOCR(image_file)
+    log(image_file, result)
     
     #print(Fore.RED, files, result)
     return result
@@ -132,16 +139,21 @@ async def get_patient_inf(ctx: RunContext):
     print(Fore.RED, ctx)
     return "Michelle Lau, 36, female"
 
+@agent.system_prompt
+def get_systemprompt():
+    return "You are a underwriter who can provide profession advice to the team for the claim request form, final result should be in Chinese"
 
 result = agent.run_sync(
     """prepare the medical certificate for an insurnace claim, you can get the information from the medical certificate
-    , file in 'pdfs/p1.pdf'
-    """
+        , file in 'pdfs/p2.pdf'
+    """,
+    
 #    "what is liver function that cannot have Life Cover"
 #    #"who is ryan kim in fwd team?"
+    #usage_limits=UsageLimits(response_tokens_limit=20),
     )
 
-print(Fore.BLUE, (result.data))
+print(Fore.BLUE,  (result.data))
 
  
  
