@@ -2,7 +2,8 @@
 Scripts
 Lib
 Include
+images
 share
-cached/*
-pdf/*
+cached
+pdfs
 .logfile
