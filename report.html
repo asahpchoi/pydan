@@ -1,121 +1,64 @@
-Here's the HTML representation of the provided patient information and check results:
+Below is the HTML code generated based on your input data for a patient's medical record summary:
 
 ```html
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>患者生化检查报告</title>
+    <title>患者医疗记录</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
             margin: 20px;
+            line-height: 1.6;
         }
-        h1, h2, h3 {
-            color: #333;
+        h1 {
+            text-align: center;
         }
-        .info, .check-result {
-            border: 1px solid #ccc;
+        .patient-info, .check-list, .summary, .conclusion {
+            margin: 20px 0;
             padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
         }
-        .info p, .check-result p {
-            margin: 5px 0;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #d9534f; /* Red color for notes */
+        .check-list {
+            list-style-type: none;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-    <h1>患者生化检查报告</h1>
-    
-    <div class="info">
-        <h2>患者信息</h2>
-        <p><strong>医院:</strong> Bumrungrad国际医院</p>
-        <p><strong>住院编号:</strong> (隐去)</p>
-        <p><strong>年龄:</strong> 40年5月21天</p>
-        <p><strong>订购日期:</strong> 07/05/2024</p>
-        <p><strong>出生日期:</strong> 16/11/1983</p>
-        <p><strong>性别:</strong> 女性</p>
-        <p><strong>时间:</strong> 09:39</p>
-        <p><strong>科室:</strong> 健康检查中心（A楼11楼）</p>
-        <p><strong>订单所有者:</strong> 健康检查中心（BIC 11楼）</p>
-    </div>
 
-    <h2>生化检查</h2>
-    
-    <div class="check-result">
-        <h3>%HbA1c*</h3>
-        <p><strong>样本编号:</strong> 24239608-4</p>
-        <p><strong>采集时间:</strong> 07/05/2024 09:39</p>
-        <p><strong>接收时间:</strong> 07/05/2024 10:03</p>
-        <p><strong>试管:</strong> 紫色盖子</p>
-        <p><strong>样本:</strong> EDTA血液3毫升 - (CH)</p>
-        <p><strong>测试:</strong> HbA1c</p>
-        <p><strong>结果:</strong> 5.2 <strong>单位:</strong> %</p>
-        <p><strong>参考范围:</strong> (0.0-5.6)</p>
-        <p><strong>授权人:</strong> Panote Krasathong于2024年07月05日10:21</p>
-    </div>
+<h1>患者医疗记录</h1>
 
-    <div class="check-result">
-        <h3>尿素氮(BUN)*</h3>
-        <p><strong>样本编号:</strong> 24239608-5</p>
-        <p><strong>采集时间:</strong> 07/05/2024 09:39</p>
-        <p><strong>接收时间:</strong> 07/05/2024 10:04</p>
-        <p><strong>试管:</strong> 红色盖子</p>
-        <p><strong>样本:</strong> 平血5毫升 - (CH)</p>
-        <p><strong>测试:</strong> BUN</p>
-        <p><strong>结果:</strong> 8.4 <strong>单位:</strong> mg/dL</p>
-        <p><strong>参考范围:</strong> (7.0-21.0)</p>
-        <p><strong>授权人:</strong> 系统自动授权于2024年07月05日10:38</p>
-    </div>
+<div class="patient-info">
+    <h2>患者信息</h2>
+    <p><strong>患者姓名:</strong> (未提供, 已屏蔽)</p>
+    <p><strong>出生日期:</strong> 1983年11月16日</p>
+</div>
 
-    <div class="check-result">
-        <h3>肌酐和eGFR（血液）*</h3>
-        <p><strong>样本编号:</strong> 24239608-5</p>
-        <p><strong>采集时间:</strong> 07/05/2024 09:39</p>
-        <p><strong>接收时间:</strong> 07/05/2024 10:04</p>
-        <p><strong>试管:</strong> 红色盖子</p>
-        <p><strong>样本:</strong> 平血5毫升 - (CH)</p>
-        <p><strong>测试:</strong> 肌酐</p>
-        <p><strong>结果:</strong> 0.53 <strong>(L)</strong> <strong>单位:</strong> mg/dL</p>
-        <p><strong>参考范围:</strong> (0.55-1.02)</p>
-    </div>
+<div class="check-list">
+    <h2>检查记录</h2>
+    <ul>
+        <li><strong>检查日期:</strong> 2023年6月20日, <strong>检查项目:</strong> 咨询肝囊肿, <strong>检查结果:</strong> 肝囊肿, 胆囊息肉; 每六个月随访一次超声检查</li>
+        <li><strong>检查日期:</strong> 2023年11月8日, <strong>检查项目:</strong> 随访, <strong>检查结果:</strong> 肝囊肿, 胆囊息肉</li>
+        <li><strong>检查日期:</strong> 2024年4月24日, <strong>检查项目:</strong> 随访, <strong>检查结果:</strong> 无显著变化</li>
+    </ul>
+</div>
 
-    <div class="highlight">
-        <p><strong>备注:</strong> 检查结果应始终结合患者病历、临床检查和其他发现进行解读。</p>
-        <p><strong>提醒:</strong> 任何带有*符号的测试表示拥有ISO 15189或ISO 22870认证。标记信息，如(L)表示低于正常低值，(H)表示高于正常高值，c表示校正。(LL)表示临床低值，(HH)表示临床高值。</p>
-    </div>
+<div class="summary">
+    <h2>总结</h2>
+    <p>此患者自2023年6月以来因肝囊肿和胆囊息肉进行随访，初步诊断显示健康状况稳定，随后在2024年4月的超声检查中确认无显著变化。</p>
+</div>
 
-    <div class="info">
-        <h2>医院信息</h2>
-        <p><strong>医院地址:</strong> 33 Sukhumvit 3, Bangkok 10110, Thailand</p>
-        <p><strong>电话:</strong> +662 0668888</p>
-        <p><strong>传真:</strong> +662 0115100</p>
-        <p><strong>网站:</strong> <a href="http://www.bumrungrad.com">www.bumrungrad.com</a></p>
-    </div>
+<div class="conclusion">
+    <h2>结论</h2>
+    <p>继续每六个月随访一次超声检查，建议患者保持定期检查以确保健康。</p>
+</div>
 
-    <div class="summary">
-        <h2>总结</h2>
-        <p>患者的生化检查结果显示HbA1c在正常范围内，BUN也属于正常范围，但肌酐水平低于正常下限，可能需要进一步观察或评价肾功能。</p>
-    </div>
-
-    <div class="conclusion">
-        <h2>结论</h2>
-        <p>建议结合临床表现与医疗历史进行进一步评估，特别关注肌酐偏低的情况。</p>
-    </div>
-    
-    <footer>
-        <p><strong>打印日期:</strong> 08/05/2024 10:26</p>
-        <p><strong>页面:</strong> 1/7</p>
-    </footer>
 </body>
 </html>
 ```
 
-This HTML structure consists of sections for patient information, check results, hospital details, and insights, all styled with simple CSS for better readability. You can further enhance the styles or structure as needed!
+This code creates a structured HTML page summarizing the patient's information, check records, summary of their condition, and concluding recommendations. The styling ensures readability and organization of the content.

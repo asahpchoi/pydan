@@ -53,7 +53,7 @@ def summary():
     )
     print(result.data)
 
-def extractfile(pdf_file:str):
+def extractfile(pdf_file:str) -> str:
     @dataclass
     class deps:
         file_type: str
@@ -87,12 +87,13 @@ def extractfile(pdf_file:str):
 
 
     d = deps("pdf", pdf_file, [])
-    extraction_agent.run_sync("extract the information from pdf", deps=d)
+    result = extraction_agent.run_sync("extract the information from pdf", deps=d)
+    print(Fore.GREEN, result)
+    return result
+    
 
-def gen_report() -> report_output:
-
-
-    context = getall()
+def gen_report(context) -> report_output:
+    #context = getall()
     report_agent = Agent(
         model="openai:gpt-4o-mini", 
         result_type=report_output
@@ -115,6 +116,3 @@ def gen_html(report):
     with codecs.open("report.html", "w", "utf-8") as f:
         f.write(html.data)
 
-extractfile("pdfs/p3.pdf")
-rpt = gen_report()
-gen_html(rpt)
