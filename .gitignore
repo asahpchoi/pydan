@@ -3,3 +3,6 @@ Scripts
 Lib
 Include
 share
+cached/*
+pdf/*
+.logfile
