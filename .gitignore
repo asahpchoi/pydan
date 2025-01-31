@@ -7,3 +7,4 @@ share
 cached
 pdfs
 .logfile
+__pycache__

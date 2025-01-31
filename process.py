@@ -1,20 +1,22 @@
 from dotenv import load_dotenv
 load_dotenv()
 
+import logfire
+logfire.configure()
+
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.models.openai import OpenAIModel
-import logfire
-import json
 from colorama import Fore
 from tools.tools import getOCR, extractpdf  # Corrected import statement
-import os
 from crawl4ai import AsyncWebCrawler
 from pydantic_ai.usage import UsageLimits
-from db import log, clear, getall
+from db import log, clear
 from dataclasses import dataclass
 from pydantic_ai.tools import ToolDefinition
+
+
 
 class check_item(BaseModel):
     check_date: str
@@ -27,8 +29,7 @@ class report_output(BaseModel):
     summary: str
     conclusion: str
 
-
-def summary():
+def summary(context: str):
     @dataclass
     class medical_report:
         extracts: str
@@ -42,8 +43,7 @@ def summary():
         summary_model,
         deps_type=medical_report
     )
-
-    context = getall() 
+ 
 
     result = summary_agent.run_sync(
         f"""you are a professional medical officer, 
@@ -91,8 +91,7 @@ def extractfile(pdf_file:str) -> str:
     print(Fore.GREEN, result)
     return result
     
-
-def gen_report(context) -> report_output:
+def gen_report(context: str) -> report_output:
     #context = getall()
     report_agent = Agent(
         model="openai:gpt-4o-mini", 
@@ -104,7 +103,7 @@ def gen_report(context) -> report_output:
     return rpt.data
     #print(Fore.BLUE, rpt.data)
 
-def gen_html(report):
+def gen_html(report: str):
     html_agent = Agent(
         model="openai:gpt-4o-mini", 
      

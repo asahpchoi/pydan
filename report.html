@@ -1,64 +1,80 @@
-Below is the HTML code generated based on your input data for a patient's medical record summary:
+Below is the HTML generated based on the provided patient information, check records, summary, and conclusion:
 
 ```html
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>患者医疗记录</title>
+    <title>患者检查记录</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.6;
+            color: #333;
         }
         h1 {
             text-align: center;
         }
-        .patient-info, .check-list, .summary, .conclusion {
-            margin: 20px 0;
-            padding: 10px;
+        .patient-info, .check-records, .summary, .conclusion {
             border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
         }
-        .check-list {
-            list-style-type: none;
-            padding: 0;
+        .check-item {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-<h1>患者医疗记录</h1>
+<h1>患者检查记录</h1>
 
 <div class="patient-info">
     <h2>患者信息</h2>
-    <p><strong>患者姓名:</strong> (未提供, 已屏蔽)</p>
-    <p><strong>出生日期:</strong> 1983年11月16日</p>
+    <p><strong>患者姓名:</strong> (空白)</p>
+    <p><strong>出生日期 (mm/dd/yyyy):</strong> 1983年11月16日</p>
+    <p><strong>身份证号:</strong> (空白)</p>
 </div>
 
-<div class="check-list">
+<div class="check-records">
     <h2>检查记录</h2>
-    <ul>
-        <li><strong>检查日期:</strong> 2023年6月20日, <strong>检查项目:</strong> 咨询肝囊肿, <strong>检查结果:</strong> 肝囊肿, 胆囊息肉; 每六个月随访一次超声检查</li>
-        <li><strong>检查日期:</strong> 2023年11月8日, <strong>检查项目:</strong> 随访, <strong>检查结果:</strong> 肝囊肿, 胆囊息肉</li>
-        <li><strong>检查日期:</strong> 2024年4月24日, <strong>检查项目:</strong> 随访, <strong>检查结果:</strong> 无显著变化</li>
-    </ul>
+    <div class="check-item">
+        <p><strong>检查日期:</strong> 20/06/2023</p>
+        <p><strong>检查项目:</strong> 咨询肝囊肿</p>
+        <p><strong>检查结果:</strong> 肝囊肿，胆囊息肉，建议每6个月进行一次超声检查。</p>
+    </div>
+    <div class="check-item">
+        <p><strong>检查日期:</strong> 08/11/2023</p>
+        <p><strong>检查项目:</strong> 随访</p>
+        <p><strong>检查结果:</strong> 肝囊肿，胆囊息肉，继续观察。</p>
+    </div>
+    <div class="check-item">
+        <p><strong>检查日期:</strong> 24/04/2024</p>
+        <p><strong>检查项目:</strong> 随访</p>
+        <p><strong>检查结果:</strong> 无显著变化，比较之前的检查。</p>
+    </div>
+    <div class="check-item">
+        <p><strong>检查日期:</strong> 24/04/2024</p>
+        <p><strong>检查项目:</strong> 血压记录</p>
+        <p><strong>检查结果:</strong> 舒张压83mmHg，收缩压129mmHg，160 cm，51.6 kg。</p>
+    </div>
 </div>
 
 <div class="summary">
     <h2>总结</h2>
-    <p>此患者自2023年6月以来因肝囊肿和胆囊息肉进行随访，初步诊断显示健康状况稳定，随后在2024年4月的超声检查中确认无显著变化。</p>
+    <p>该患者于2023年6月20日首次就诊，主要因肝囊肿和胆囊息肉进行咨询，医嘱每六个月进行一次超声检查。最后一次就诊为2024年4月24日，监测胆囊息肉和肝囊肿的大小变换，患者整体健康状况良好。</p>
 </div>
 
 <div class="conclusion">
     <h2>结论</h2>
-    <p>继续每六个月随访一次超声检查，建议患者保持定期检查以确保健康。</p>
+    <p>患者目前健康，建议持续随访。</p>
 </div>
 
 </body>
 </html>
 ```
 
-This code creates a structured HTML page summarizing the patient's information, check records, summary of their condition, and concluding recommendations. The styling ensures readability and organization of the content.
+This HTML document contains sections for the patient's information, check records with detailed entries, a summary of the patient's situation, and a conclusion. The formatting is simple and clean, making the information easy to read.
