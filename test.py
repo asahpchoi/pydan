@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
 from pydantic_ai.models.ollama import OllamaModel
@@ -5,8 +8,7 @@ from pydantic_ai.models.openai import OpenAIModel
 import logfire
 import json
 from colorama import Fore
-from dotenv import load_dotenv
-from tools.tools import getOCR, extractpdf
+from tools.tools import getOCR, extractpdf  # Corrected import statement
 import os
 from crawl4ai import AsyncWebCrawler
 from pydantic_ai.usage import UsageLimits
@@ -14,7 +16,17 @@ from db import log, clear, getall
 from dataclasses import dataclass
 from pydantic_ai.tools import ToolDefinition
 
-load_dotenv()  # take environment variables from .env.
+class check_item(BaseModel):
+    check_date: str
+    check_item: str
+    check_result: str
+
+class report_output(BaseModel):
+    patient_info: str
+    checks: list[check_item]
+    summary: str
+    conclusion: str
+
 
 def summary():
     @dataclass
@@ -22,7 +34,7 @@ def summary():
         extracts: str
     
     summary_model =  OllamaModel(
-        model_name='deepseek-r1',  
+        model_name='deepseek-r1:1.5b',  
         base_url='http://localhost:11434/v1',  
     )
  
@@ -31,15 +43,17 @@ def summary():
         deps_type=medical_report
     )
 
-    mr = medical_report(getall())
+    context = getall() 
 
     result = summary_agent.run_sync(
-        "you are a professional medical officer, you can extract detail medical report from all the pdf extractions in markdown format",
-        deps = mr
+        f"""you are a professional medical officer, 
+        you can complile a detail medical report from all the extractions in markdown format
+        *ensure to keep all the key dates in the final report, e.g. check date, request date
+        extract context: {context}"""
     )
     print(result.data)
 
-def extractfile():
+def extractfile(pdf_file:str):
     @dataclass
     class deps:
         file_type: str
@@ -72,7 +86,35 @@ def extractfile():
         return files
 
 
-    d = deps("pdf", "pdfs/p2.pdf", [])
+    d = deps("pdf", pdf_file, [])
     extraction_agent.run_sync("extract the information from pdf", deps=d)
 
-summary()
+def gen_report() -> report_output:
+
+
+    context = getall()
+    report_agent = Agent(
+        model="openai:gpt-4o-mini", 
+        result_type=report_output
+    )
+    rpt = report_agent.run_sync(
+        f"generate medical report from the context: {context}, output need to be in Chinese"
+    )
+    return rpt.data
+    #print(Fore.BLUE, rpt.data)
+
+def gen_html(report):
+    html_agent = Agent(
+        model="openai:gpt-4o-mini", 
+     
+    )
+    html = html_agent.run_sync(f"generate the html base on the input data: {report}")
+    print(Fore.YELLOW, html.data)
+    import codecs
+
+    with codecs.open("report.html", "w", "utf-8") as f:
+        f.write(html.data)
+
+extractfile("pdfs/p3.pdf")
+rpt = gen_report()
+gen_html(rpt)
