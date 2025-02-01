@@ -16,8 +16,6 @@ from db import log, clear
 from dataclasses import dataclass
 from pydantic_ai.tools import ToolDefinition
 
-
-
 class check_item(BaseModel):
     check_date: str
     check_item: str
@@ -94,8 +92,9 @@ def extractfile(pdf_file:str) -> str:
 def gen_report(context: str) -> report_output:
     #context = getall()
     report_agent = Agent(
-        model="openai:gpt-4o-mini", 
-        result_type=report_output
+        #model="openai:gpt-4o-mini", 
+        model="openai:o3-mini",
+        #result_type=report_output
     )
     rpt = report_agent.run_sync(
         f"generate medical report from the context: {context}, output need to be in Chinese"
@@ -103,15 +102,19 @@ def gen_report(context: str) -> report_output:
     return rpt.data
     #print(Fore.BLUE, rpt.data)
 
-def gen_html(report: str):
+def gen_html(report: str, filename: str):
+    class htmloutput(BaseModel):
+        html: str
+
     html_agent = Agent(
         model="openai:gpt-4o-mini", 
-     
+        result_type=htmloutput
     )
+
     html = html_agent.run_sync(f"generate the html base on the input data: {report}")
-    print(Fore.YELLOW, html.data)
+    #print(Fore.YELLOW, html.data.html)
     import codecs
 
-    with codecs.open("report.html", "w", "utf-8") as f:
-        f.write(html.data)
+    with codecs.open(f"{filename}.html", "w", "utf-8") as f:
+        f.write(html.data.html)
 
