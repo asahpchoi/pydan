@@ -26,6 +26,7 @@ class report_output(BaseModel):
     checks: list[check_item]
     summary: str
     conclusion: str
+    hospital_name:str
 
 def summary(context: str):
     @dataclass
@@ -94,13 +95,19 @@ def gen_report(context: str) -> report_output:
     report_agent = Agent(
         #model="openai:gpt-4o-mini", 
         model="openai:o3-mini",
-        #result_type=report_output
+        result_type=report_output
     )
     rpt = report_agent.run_sync(
         f"generate medical report from the context: {context}, output need to be in Japanese"
     )
-    return rpt.data
-    #print(Fore.BLUE, rpt.data)
+    print(Fore.GREEN, rpt.data, validate_hospital_name(rpt.data))
+    return f"{rpt.data}, hospital verified: {validate_hospital_name(rpt.data)}"
+
+def validate_hospital_name(hospital_name : str) -> str:
+    if hospital_name == "SYNPHART SRINAKARIN HOSPITAL":
+        return " (Verified)"
+    else:
+        return " (Not Verified)"
 
 def gen_html(report: str, filename: str):
     class htmloutput(BaseModel):
