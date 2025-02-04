@@ -8,7 +8,7 @@ def work(file):
     gen_html(rpt, file)
 
 t1 = threading.Thread(target=work("pdfs/p1.pdf")) 
-t2 = threading.Thread(target=work("pdfs/p4.pdf")) 
+t2 = threading.Thread(target=work("pdfs/p2.pdf")) 
 
 t1.start()
 t2.start()

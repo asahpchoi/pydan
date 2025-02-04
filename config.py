@@ -1,15 +1,15 @@
 import os
 from google import genai
-from pydantic_ai.models.ollama import OllamaModel
+#from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.models.openai import OpenAIModel
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
-ollama_model = OllamaModel(
-    model_name='deepseek-r1:1.5b',
-    base_url='http://localhost:11434/v1',
-)
+#ollama_model = OllamaModel(
+#    model_name='deepseek-r1:1.5b',
+#    base_url='http://localhost:11434/v1',
+#)
 
 ds_model = OpenAIModel(
     'deepseek-chat',

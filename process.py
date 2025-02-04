@@ -6,7 +6,7 @@ logfire.configure()
 
 from pydantic_ai import Agent, RunContext
 from pydantic import BaseModel
-from pydantic_ai.models.ollama import OllamaModel
+#from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.models.openai import OpenAIModel
 from colorama import Fore
 from tools.tools import getOCR, extractpdf  # Corrected import statement
@@ -32,10 +32,10 @@ def summary(context: str):
     class medical_report:
         extracts: str
     
-    summary_model =  OllamaModel(
-        model_name='deepseek-r1:1.5b',  
-        base_url='http://localhost:11434/v1',  
-    )
+    #summary_model =  OllamaModel(
+    #    model_name='deepseek-r1:1.5b',  
+    #    base_url='http://localhost:11434/v1',  
+    #)
  
     summary_agent = Agent(
         summary_model,
@@ -97,7 +97,7 @@ def gen_report(context: str) -> report_output:
         #result_type=report_output
     )
     rpt = report_agent.run_sync(
-        f"generate medical report from the context: {context}, output need to be in Chinese"
+        f"generate medical report from the context: {context}, output need to be in Japanese"
     )
     return rpt.data
     #print(Fore.BLUE, rpt.data)
