@@ -8,3 +8,6 @@ cached
 pdfs
 .logfile
 __pycache__
+bin
+lib
+lib64
