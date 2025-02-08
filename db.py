@@ -1,5 +1,14 @@
 import sqlite3
 
+def initUW(title, content):
+    connection = sqlite3.connect("db/uw.db")
+    cursor = connection.cursor() 
+    cursor.execute(f"insert into uw values (\"{title}\", \"{content}\")")
+    #cursor.execute("create table uw (title TEXT, content TEXT)")
+    connection.commit()    
+
+
+
 def getall():
     connection = sqlite3.connect("db/ocr.db")
 

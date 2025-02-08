@@ -20,3 +20,7 @@ async def extractpdf(path) -> list[str]:
         images[i].save(filename, 'PNG')
         results.append(filename)
     return results
+
+async def getUserInfo(userID: str) -> str:
+    return f"Name: Asa Choi, Age: 40, Gender: M, UserID:{userID}"
+
