@@ -64,28 +64,26 @@ def summary(context: str):
     gen_report(result.data)
     #print(result.data)
 
-def extractfile(pdf_file:str) -> str:
+def extractfile(pdf_file: str) -> str:
     @dataclass
     class deps:
         file_type: str
         file_path: str
         image_files: list[str]
 
-
     extraction_agent = Agent(
-        model="openai:gpt-4o-mini", 
-        result_retries=20, 
-        deps_type = deps,
+        model="openai:gpt-4o-mini",
+        result_retries=20,
+        deps_type=deps,
     )
-        
+
     @extraction_agent.tool
-    async def extract_image(ctx: RunContext[int], image_file) -> str:
+    async def extract_image(ctx: RunContext[int], image_file: str) -> str:
         """
             extract image information from image_files
-            for 通院 , try to extract the circled dates 
+            for 通院 , try to extract the circled dates
         """
         print(Fore.BLUE, f"extract from {image_file}\n")
-        #result = "dummy"
         result = await getOCR(image_file)
         log(ctx.deps.file_path, image_file, result)
         return result
@@ -94,42 +92,44 @@ def extractfile(pdf_file:str) -> str:
     async def extract_pdf2images(ctx: RunContext[int]) -> list[str]:
         """extract information from pdf file to images"""
         clear()
-        print(Fore.RED, f"extract from {ctx.deps}")
+        print(Fore.RED, f"extract from {ctx.deps.file_path}")
         files = await extractpdf(ctx.deps.file_path)
         ctx.deps.image_files = files
         return files
-    
 
     @extraction_agent.tool
-    async def Diagnosis_mapping(ctx: RunContext, medical_finding: str):
+    async def Diagnosis_mapping(ctx: RunContext, medical_finding: str) -> str:
         """if there is any Diagnosis,  use this function to map the icd 10 code"""
         print(Fore.GREEN, medical_finding)
         icd_agent = Agent(
-            model="openai:gpt-4o-mini", 
+            model="openai:gpt-4o-mini",
             system_prompt="you are a icd mapper, and you can return the ICD code base on the impairment name"
         )
         result = await icd_agent.run(medical_finding)
         return result.data
 
     @extraction_agent.tool
-    async def underwriting_assessment(ctx: RunContext):
+    async def underwriting_assessment(ctx: RunContext) -> str:
         """base on the provided medical information for the underwriting assessment, include *reason and decision: [approved, declined, refer to human accessment]"""
         print(Fore.RED, ctx.messages)
         assessment_agent = Agent(
-            model="openai:gpt-4o-mini", 
-            system_prompt="You are an experience underwriter, you will base on the context provided to provide an underwriting decision, include *reason and decision: [approved, declined, refer to human accessment] ",
+            model="openai:gpt-4o-mini",
+            system_prompt="You are an experience underwriter, you will base on the provided context to provide underwriting assessment result and provide the reasons",
             deps_type=report_output
         )
         result = await assessment_agent.run("base on the provided context to provide underwriting assessment result and provide the reasons", deps=ctx.messages)
         print(Fore.RED, result)
         return result.data
-    
+
     d = deps("pdf", pdf_file, [])
-    result = extraction_agent.run_sync("""
-                                        extract the information from pdf and get user information,
-                                        if any medical information found, run the diagnosis_mapping, 
-                                        then run the underwriting assessment 
-                                       """, deps=d)
+    result = extraction_agent.run_sync(
+        """
+        extract the information from pdf and get user information,
+        if any medical information found, run the diagnosis_mapping,
+        then run the underwriting assessment
+        """,
+        deps=d,
+    )
     print(Fore.GREEN, result)
     return result
     
@@ -141,46 +141,7 @@ def gen_report(context: str) -> report_output:
         result_type=report_output
     )
 
-
-       
-
-    
     rpt = report_agent.run_sync(
         f"generate medical report from the context: {context}, and output need to be in English"
     )
-    #print(Fore.GREEN, rpt.data, validate_hospital_name(rpt.data))
-    return f"{rpt.data}, hospital verified: {validate_hospital_name(rpt.data)}"
-
-def validate_hospital_name(hospital_name : str) -> str:
-    if hospital_name == "SYNPHART SRINAKARIN HOSPITAL":
-        return " (Verified)"
-    else:
-        return " (Not Verified)"
-def write_file(content, filename):
-    import codecs
-
-    with codecs.open(f"{filename}", "w", "utf-8") as f:
-        f.write(content)
-
-def read_file(filename):
-    import codecs
-    with codecs.open(f"{filename}", "r", "utf-8") as f:
-        return f.readlines()
-
-def gen_html(report: str, filename: str):
-    class htmloutput(BaseModel):
-        html: str
-
-    html_agent = Agent(
-        model="openai:gpt-4o-mini", 
-        result_type=htmloutput
-    )
-
-    html = html_agent.run_sync(f"generate the html base on the input data: {report}")
-    #print(Fore.YELLOW, html.data.html)
-    import codecs
-    with codecs.open(f"{filename}.txt", "w", "utf-8") as f:
-        f.write(report)
-
-    with codecs.open(f"{filename}.html", "w", "utf-8") as f:
-        f.write(html.data.html)
+    return f"{rpt.data}"
