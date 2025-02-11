@@ -1,0 +1,21 @@
+08:15:17.999 aa run prompt=you are a agent to extract information from web
+08:15:18.019   preparing model and tools run_step=1
+08:15:18.020   model request
+08:15:19.196   handle model response
+08:15:19.197     running tools=['getweb']
+https://ganjoho.jp/public/pre_scr/screening/about_scr01.html#anchor5
+[INIT].... → Crawl4AI 0.4.248
+[FETCH]... ↓ https://ganjoho.jp/public/pre_scr/screening/about_... | Status: True | Time: 0.02s
+[COMPLETE] ● https://ganjoho.jp/public/pre_scr/screening/about_... | Status: True | Total: 0.02s
+08:15:19.970   preparing model and tools run_step=2
+08:15:19.970   model request
+08:15:22.007   handle model response
+08:15:22.029 summary_agent run prompt=you are a professional medical officer, try to collect the use...ance between benefits and disadvantages of cancer screenings.'
+08:15:22.030   preparing model and tools run_step=1
+08:15:22.030   model request
+08:15:24.823   handle model response
+08:15:24.826 report_agent run prompt=generate medical report from the context: To create a detailed...e provide the necessary details., output need to be in English
+08:15:24.827   preparing model and tools run_step=1
+08:15:24.827   model request
+08:15:32.326   handle model response
+None
