@@ -17,6 +17,12 @@ def getall():
     srows = map(str, rows)
     return "\n".join(srows)
  
+def getallrows():
+    connection = sqlite3.connect("db/ocr.db")
+
+    cursor = connection.cursor()
+    rows = cursor.execute("select extraction from ocr").fetchall()
+    return rows
 
 def log(filepath:str, filename: str, extraction :str):
     print(filename, extraction)

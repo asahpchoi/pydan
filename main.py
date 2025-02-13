@@ -1,6 +1,9 @@
 import sys
 from process import extractfile, gen_report
 from pydantic_ai import Agent
+import codecs
+from pydantic import BaseModel
+
 
 def main():
     if len(sys.argv) != 2:
@@ -11,24 +14,11 @@ def main():
 
     try:
         extraction = extractfile(filename)
-        print(extraction)
-        rpt = gen_report(extraction)
+ 
+        
+        rpt = gen_report(extraction, filename)
 
-        # Generate HTML report
-        from pydantic import BaseModel
-        class htmloutput(BaseModel):
-            html: str
 
-        html_agent = Agent(
-            model="openai:gpt-4o-mini",
-            result_type=htmloutput
-        )
-
-        html = html_agent.run_sync(f"generate the html base on the input data: {rpt}")
-
-        import codecs
-        with codecs.open(f"{filename}.html", "w", "utf-8") as f:
-            f.write(html.data.html)
 
     except FileNotFoundError:
         print(f"Error: File not found: {filename}")

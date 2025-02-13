@@ -15,37 +15,19 @@ from pydantic_ai.usage import UsageLimits
 from db import log, clear
 from dataclasses import dataclass
 from pydantic_ai.tools import ToolDefinition
+from tools.agents import report_agent, report_output, assessment_agent, extraction_agent, summary_agent, extraction_deps, html_agent
+import codecs
 
-class check_item(BaseModel):
-    check_date: str
-    check_item: str
-    ICD_10: str
-    check_result: str
-
-class report_output(BaseModel):
-    patient_info: str
-    checks: list[check_item]
-    treatment: str
-    summary: str
-    conclusion: str
-    followup: str
-    hospital_name:str
-    underwriting_assessment: str = Field(description="base on the information to suggest a underwriting decision with reasoning, include declined, approved or add loading")
 
 def summary(context: str):
-    @dataclass
-    class medical_report:
-        extracts: str
+
     
     #summary_model =  OllamaModel(
     #    model_name='deepseek-r1:1.5b',  
     #    base_url='http://localhost:11434/v1',  
     #)
  
-    summary_agent = Agent(
-        "openai:gpt-4o-mini",
-        deps_type=medical_report
-    )
+
 
     @summary_agent.tool_plain
     async def getweb(url: str) -> str:    
@@ -65,23 +47,15 @@ def summary(context: str):
     #print(result.data)
 
 def extractfile(pdf_file: str) -> str:
-    @dataclass
-    class deps:
-        file_type: str
-        file_path: str
-        image_files: list[str]
-
-    extraction_agent = Agent(
-        model="openai:gpt-4o-mini",
-        result_retries=20,
-        deps_type=deps,
-    )
 
     @extraction_agent.tool
     async def extract_image(ctx: RunContext[int], image_file: str) -> str:
         """
-            extract image information from image_files
-            for 通院 , try to extract the circled dates
+            extact all the information from the image, 
+            dont miss any dates and handwriting,
+            focus on medical and checkup information
+            all table information need to be presented in markdown
+            output format should be in markdown
         """
         print(Fore.BLUE, f"extract from {image_file}\n")
         result = await getOCR(image_file)
@@ -97,7 +71,7 @@ def extractfile(pdf_file: str) -> str:
         ctx.deps.image_files = files
         return files
 
-    @extraction_agent.tool
+    #@extraction_agent.tool
     async def Diagnosis_mapping(ctx: RunContext, medical_finding: str) -> str:
         """if there is any Diagnosis,  use this function to map the icd 10 code"""
         print(Fore.GREEN, medical_finding)
@@ -108,20 +82,16 @@ def extractfile(pdf_file: str) -> str:
         result = await icd_agent.run(medical_finding)
         return result.data
 
-    @extraction_agent.tool
+    #@extraction_agent.tool
     async def underwriting_assessment(ctx: RunContext) -> str:
         """base on the provided medical information for the underwriting assessment, include *reason and decision: [approved, declined, refer to human accessment]"""
-        print(Fore.RED, ctx.messages)
-        assessment_agent = Agent(
-            model="openai:gpt-4o-mini",
-            system_prompt="You are an experience underwriter, you will base on the provided context to provide underwriting assessment result and provide the reasons",
-            deps_type=report_output
-        )
+ 
+
         result = await assessment_agent.run("base on the provided context to provide underwriting assessment result and provide the reasons", deps=ctx.messages)
-        print(Fore.RED, result)
+ 
         return result.data
 
-    d = deps("pdf", pdf_file, [])
+    d = extraction_deps("pdf", pdf_file, [])
     result = extraction_agent.run_sync(
         """
         extract the information from pdf and get user information,
@@ -130,18 +100,21 @@ def extractfile(pdf_file: str) -> str:
         """,
         deps=d,
     )
-    print(Fore.GREEN, result)
-    return result
-    
-def gen_report(context: str) -> report_output:
-    #context = getall()
-    report_agent = Agent(
-        model="openai:gpt-4o-mini", 
-        #model="openai:o3-mini",
-        result_type=report_output
-    )
 
+    print(Fore.RED, result.data)
+    
+   
+    with codecs.open(f"{pdf_file}.html.txt", "w", "utf-8") as f:
+        f.write(result.data)
+ 
+    return result.data
+    
+def gen_report(context: str, filename: str) -> report_output:
     rpt = report_agent.run_sync(
         f"generate medical report from the context: {context}, and output need to be in English"
     )
-    return f"{rpt.data}"
+
+    html = html_agent.run_sync(f"generate the html base on the input data: {rpt}")
+
+    with codecs.open(f"{filename}.html", "w", "utf-8") as f:
+        f.write(rpt.data)

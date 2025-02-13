@@ -1,0 +1,1458 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dependency Check Report</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
+}
+.risk-low {
+    /* Low risk items - no special styling needed */
+}
+.risk-medium {
+    background-color: rgba(0, 0, 255, 0.1); /* Light blue for medium risk if highlighting background is preferred */
+    color: blue; /* Blue text for medium risk */
+}
+.risk-high {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red for high risk if highlighting background is preferred */
+    color: red; /* Red text for high risk */
+}
+
+/* Toggle Button Styling (CSS only) */
+.toggle-container {
+    margin-bottom: 10px;
+}
+.toggle-container input[type="radio"] {
+    display: none; /* Hide radio buttons */
+}
+.toggle-container label {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.toggle-container label:hover {
+    background-color: #ddd;
+}
+.toggle-container input[type="radio"]:checked + label {
+    background-color: #ccc;
+}
+
+/* Toggle Functionality using CSS */
+.report-table tr.risk-row {
+    display: table-row; /* Default show all risk rows */
+}
+
+/* Initially hide all risk rows except low risk (default to show low risk) if needed, or start with show all */
+.report-table tr.risk-row.risk-medium,
+.report-table tr.risk-row.risk-high {
+    display: table-row; /* Default to show all, change to 'none' to hide by default */
+}
+
+/* Hide based on toggle selection */
+#show-low:not(:checked) ~ .report-table tr.risk-row.risk-low {
+    display: none;
+}
+#show-medium:not(:checked) ~ .report-table tr.risk-row.risk-medium {
+    display: none;
+}
+#show-high:not(:checked) ~ .report-table tr.risk-row.risk-high {
+    display: none;
+}
+#show-all:checked ~ .report-table tr.risk-row {
+    display: table-row;
+}
+
+
+</style>
+</head>
+<body>
+
+<h1>Dependency Check Report</h1>
+
+<div class="toggle-container">
+    <input type="radio" id="show-all" name="risk-filter" value="all" checked>
+    <label for="show-all">Show All Risks</label>
+
+    <input type="radio" id="show-low" name="risk-filter" value="low">
+    <label for="show-low">Show Low Risks</label>
+
+    <input type="radio" id="show-medium" name="risk-filter" value="medium">
+    <label for="show-medium">Show Medium Risks</label>
+
+    <input type="radio" id="show-high" name="risk-filter" value="high">
+    <label for="show-high">Show High Risks</label>
+</div>
+
+
+<table class="report-table">
+    <thead>
+        <tr>
+            <th>Page No.</th>
+            <th>Check Date</th>
+            <th>Description</th>
+            <th>Impact</th>
+            <th>Risk</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Report items will be inserted here -->
+        <tr class="risk-row risk-low">
+            <td>1</td>
+            <td>12/06/2566</td>
+            <td>Emergency patient assessment categorized as urgent, with vital signs recorded and normal BMI.</td>
+            <td>Patient has no significant health concerns noted, normal vitals.</td>
+            <td>Low risk based on psychological and functional assessments.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>1</td>
+            <td>12/06/2566</td>
+            <td>Family history indicates no chronic diseases reported in family members.</td>
+            <td>Minimal hereditary risk factors identified.</td>
+            <td>Low.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>1</td>
+            <td>12/06/2566</td>
+            <td>Patient has no known allergies and is on stabilized medications without changes.</td>
+            <td>Patient's treatment managed effectively without adverse reactions reported.</td>
+            <td>Low.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>1</td>
+            <td>12/06/2566</td>
+            <td>Patient has no chronic diseases and possesses normal nutritional and functional screening.</td>
+            <td>Healthy baseline with no immediate health concerns.</td>
+            <td>Low.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>Patient is from emergency crisis, requiring immediate medical attention.</td>
+            <td>The patient needs urgent care due to the critical nature of their condition.</td>
+            <td>Potential for rapid deterioration if treatment is delayed.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>Vital signs recorded: Temperature 36.50°C, Pulse 76 bpm, Respiratory Rate 20/min, Blood Pressure 138/80 mmHg, Oxygen Saturation 99%, Weight 20kg, Height 160cm, calculated BMI 19.53.</td>
+            <td>Vital signs are relatively normal but weight suggests possible undernourishment.</td>
+            <td>Risk of health complications due to low weight (underweight category).</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>No known allergies to drugs, food, or other substances.</td>
+            <td>Minimized risk of adverse drug reactions during treatment.</td>
+            <td>No immediate risk associated with allergies.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>No significant past medical history noted during assessment.</td>
+            <td>Patient has no ongoing chronic illnesses, which may ease treatment.</td>
+            <td>Possible undiagnosed conditions that could arise.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>Family history shows no hereditary diseases indicated.</td>
+            <td>Low risk for genetically transmitted conditions.</td>
+            <td>Increased risk if family history changes in future.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>Patient is cooperative with psychological assessment and shows no suicidal risk.</td>
+            <td>Psychological condition is stable and does not require intervention.</td>
+            <td>Potential for psychological issues if circumstances change.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>2</td>
+            <td>12/06/2023</td>
+            <td>Patient's occupation is stated as self-employed.</td>
+            <td>Potential stresses from self-employment could affect health.</td>
+            <td>Risk of burnout or stress-related conditions.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>3</td>
+            <td>12/06/2023</td>
+            <td>Multiple liver cysts scattered throughout the liver and group of cysts in the medial segment (size approximately 0.5-4.3 cm).</td>
+            <td>Presence of multiple cysts without indication of malignant transformation.</td>
+            <td>Risk of discomfort or complications depending on size and location of cysts.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>3</td>
+            <td>12/06/2023</td>
+            <td>Fluid-fluid level content in the gallbladder, likely thickening bile content at the neck of the gallbladder.</td>
+            <td>Potential for gallbladder dysfunction or cholecystitis if not monitored.</td>
+            <td>Increased risk if surgical intervention is required.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>3</td>
+            <td>12/06/2023</td>
+            <td>1.0-cm cyst at the lower pole of the left kidney noted, as well as a 0.5-cm lesion also in the lower pole showing characteristics of a hemorrhagic cyst.</td>
+            <td>Presence of a hemorrhagic cyst may lead to symptoms or complications.</td>
+            <td>Likely low risk as long as symptoms are monitored.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>3</td>
+            <td>12/06/2023</td>
+            <td>Overall normal liver, gallbladder, pancreas, spleen, and adrenal glands; both kidneys normal apart from noted cysts.</td>
+            <td>No immediate concern regarding the functioning of these organs; however, monitoring of cysts is advised.</td>
+            <td>Possible future complications depending on cyst development.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>4</td>
+            <td>12/06/2566</td>
+            <td>Patient exhibiting normal vital signs with no immediate acute issues noted.</td>
+            <td>Patient is stable with vital signs within normal ranges; no immediate intervention required.</td>
+            <td>Low risk given the current condition.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>4</td>
+            <td>12/06/2566</td>
+            <td>Nursing assessment indicates the patient is well-compensated psychologically, with no signs of distress.</td>
+            <td>Patient is emotionally stable and can engage in treatment options; lowers risk of psychological crises.</td>
+            <td>Psychological health appears stable.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>4</td>
+            <td>12/06/2566</td>
+            <td>Family history of chronic diseases not documented, suggesting potential lack of hereditary disease risk.</td>
+            <td>No significant hereditary risk factors reported, reassuring for overall health assessment.</td>
+            <td>Lower risk of familial chronic diseases impacting the patient's current health.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>4</td>
+            <td>12/06/2566</td>
+            <td>No allergies reported, indicating lower risk for adverse drug reactions.</td>
+            <td>Safe administration of medications without concerning allergies will aid in treatment efficacy.</td>
+            <td>No elevated risk concerning drug allergies.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>4</td>
+            <td>12/06/2566</td>
+            <td>Current medications are stable with no adjustments indicated, assessing patient on standard treatment protocol.</td>
+            <td>Continuity in treatment without changes helps stabilize patient's health without interruptions.</td>
+            <td>Minimal risk associated with medication adjustments.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>5</td>
+            <td>23-12-2023</td>
+            <td>HPV DNA PCR & Thin prep results are provided in the original report, further evaluation required for interpretation.</td>
+            <td>Potential high risk for HPV related complications depending on the viral load and oncogenic strain present.</td>
+            <td>Increased risk of cervical cancer or other HPV-related diseases if results show a high viral presence.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>6</td>
+            <td>12/06/2023</td>
+            <td>Multiple cysts scattering in the liver (about 0.5-4.4 cm).</td>
+            <td>Potential for further investigation needed due to multiple cysts present.</td>
+            <td>Risk of liver complications or further cyst development.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>6</td>
+            <td>12/06/2023</td>
+            <td>A 0.5-cm hypoechonodule in the gallbladder.</td>
+            <td>Possible gallbladder issue that requires follow-up.</td>
+            <td>Risk of gallbladder disease or gallstones.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>6</td>
+            <td>12/06/2023</td>
+            <td>A 0.9-cm cyst at lower pole left kidney.</td>
+            <td>Requires monitoring for changes in the cyst size or characteristics.</td>
+            <td>Potential for kidney-related issues if cyst grows.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>6</td>
+            <td>12/06/2023</td>
+            <td>A 0.3-cm bright lesion at lower pole left kidney, possibly renal stone.</td>
+            <td>Potential for kidney stone formation with possible complications.</td>
+            <td>Risk of renal colic or obstruction.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>6</td>
+            <td>12/06/2023</td>
+            <td>A 0.5-cm hyperechoic lesion at lower pole left kidney, DDx hemangiomyolipoma or hemorrhagic cyst.</td>
+            <td>Differential diagnosis needed to assess nature of lesion.</td>
+            <td>Potential risk of renal damage or malignancy.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>7</td>
+            <td>12/06/2023</td>
+            <td>Physical examination revealed multiple cysts in the liver and other abnormalities.</td>
+            <td>Potential for liver complications due to cysts.</td>
+            <td>Increased risk of hemorrhage and liver dysfunction.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>7</td>
+            <td>12/06/2023</td>
+            <td>Patient has a family history of chronic diseases (Diabetes Mellitus, Hypertension, Elevated Cholesterol).</td>
+            <td>Increased risk for developing chronic diseases.</td>
+            <td>Need for regular monitoring and lifestyle management.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>7</td>
+            <td>12/06/2023</td>
+            <td>Emergency risk assessment indicates no immediate threats, but further assessment is needed.</td>
+            <td>Patient is stable but requires ongoing evaluation.</td>
+            <td>Potential for undiagnosed conditions requiring attention.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>7</td>
+            <td>12/06/2023</td>
+            <td>Psychological assessment shows no risk of suicide.</td>
+            <td>Mental health is stable, allowing for better treatment compliance.</td>
+            <td>Monitor for any future psychological distress.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>7</td>
+            <td>12/06/2023</td>
+            <td>Nutrition screening indicates normal status with a BMI of 38.5 Kg/m² (Obese).</td>
+            <td>Need for dietary management to mitigate obesity-related complications.</td>
+            <td>Higher risk for comorbidities such as cardiovascular diseases.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>Stiffness CAVI Right: Estimated age of artery is early 30s.</td>
+            <td>Arterial stiffness indicates vascular aging and health status.</td>
+            <td>Increased risk of cardiovascular issues if age exceeds chronological.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>Stiffness CAVI Left: Estimated age of artery is early 30s.</td>
+            <td>Arterial stiffness indicates vascular aging and health status.</td>
+            <td>Increased risk of cardiovascular issues if age exceeds chronological.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>Occlusion ABI Right: Normal.</td>
+            <td>Blood flow is adequate to the lower extremities.</td>
+            <td>Low risk for peripheral artery disease.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>Occlusion ABI Left: Normal.</td>
+            <td>Blood flow is adequate to the lower extremities.</td>
+            <td>Low risk for peripheral artery disease.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>Blood pressure readings: Generally normal ranges indicate good cardiovascular health.</td>
+            <td>Stable cardiovascular status.</td>
+            <td>Continuation of healthy lifestyle necessary to maintain heart health.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>8</td>
+            <td>12/6/2023</td>
+            <td>RA UT and LA UT: Values indicate normal functioning and reactivity of arteries.</td>
+            <td>Normal artery function suggests good vascular health.</td>
+            <td>Continued assessment needed if symptoms develop.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>9</td>
+            <td>12-06-2023</td>
+            <td>Stool exam color and appearance shows brown and hard consistency respectively.</td>
+            <td>Indicates normal stool color but hard consistency may indicate dehydration or dietary issues.</td>
+            <td>Potential risk of gastrointestinal discomfort or constipation.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>9</td>
+            <td>12-06-2023</td>
+            <td>WBC, RBC, Ova & Parasite, and Yeast not found in stool tests.</td>
+            <td>Indicates no signs of infection or parasitic presence in the gastrointestinal tract.</td>
+            <td>Low risk related to gastrointestinal complications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>9</td>
+            <td>12-06-2023</td>
+            <td>Occult blood (FOB) test is negative.</td>
+            <td>Indicates no hidden blood in the stool, which is a good sign and suggests no gastrointestinal bleeding.</td>
+            <td>Low risk of serious gastrointestinal pathology.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urine Color</td>
+            <td>Normal color observed.</td>
+            <td>No risk associated with color.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urine Transparency</td>
+            <td>Clear transparency observed, indicating no turbidity.</td>
+            <td>No risk associated with transparency.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Specific Gravity</td>
+            <td>Within normal limits.</td>
+            <td>No risk associated with specific gravity.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urine pH</td>
+            <td>Normal pH level.</td>
+            <td>No risk associated with pH.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urinary Protein</td>
+            <td>Negative result for protein, indicating no urinary protein loss.</td>
+            <td>No risk associated with protein levels.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urinary Glucose</td>
+            <td>Negative result indicates proper glucose metabolism.</td>
+            <td>No risk associated with glucose.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urinary Ketones</td>
+            <td>Negative result indicates no ketones in urine.</td>
+            <td>No risk associated with ketones.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06/2023</td>
+            <td>Urinary Blood</td>
+            <td>Negative result indicates no hematuria.</td>
+            <td>No risk associated with hematuria.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Bile/Bilirubin</td>
+            <td>Negative result indicates no liver dysfunction.</td>
+            <td>No risk associated with biliary abnormalities.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urobilinogen</td>
+            <td>Normal level indicates normal liver function.</td>
+            <td>No risk associated with urobilinogen.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Urinary Nitrites</td>
+            <td>Negative result indicating no bacterial infection.</td>
+            <td>No risk associated with nitrites.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Leukocyte Esterase</td>
+            <td>Negative result indicates no white blood cells present.</td>
+            <td>No risk associated with leukocytes.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Ascorbic Acid</td>
+            <td>Negative result indicates no interference in results from ascorbic acid.</td>
+            <td>No risk associated with ascorbic acid.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>WBC/HPF in Urine</td>
+            <td>Not found means no signs of infection.</td>
+            <td>No risk associated with WBC.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>RBC/HPF in Urine</td>
+            <td>Not found means no signs of hematuria.</td>
+            <td>No risk associated with RBC.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Epithelial Cells</td>
+            <td>Slightly elevated but could be normal sloughing.</td>
+            <td>Minimal risk if noted in context.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Bacteria in Urine</td>
+            <td>Rare presence, possibly contamination.</td>
+            <td>Minimal risk if asymptomatic.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Amorphous Sediment</td>
+            <td>Not found - indicates clear urine sediment.</td>
+            <td>No risk associated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Mucus in Urine</td>
+            <td>Not found - typically not concerning.</td>
+            <td>No risk associated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Crystals in Urine</td>
+            <td>Not found - normal urine composition.</td>
+            <td>No risk associated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Casts in Urine</td>
+            <td>Not found - no abnormal casts present.</td>
+            <td>No risk associated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>10</td>
+            <td>12-06-2023</td>
+            <td>Yeasts in Urine</td>
+            <td>Not found - no fungal infection present.</td>
+            <td>No risk associated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 16: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 16 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 16.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 18: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 18 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 18.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 31: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 31 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 31.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 33: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 33 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 33.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 35: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 35 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 35.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 39: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 39 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 39.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 45: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 45 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 45.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 51: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 51 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 51.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 52: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 52 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 52.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 53: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 53 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 53.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 56: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 56 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 56.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 58: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 58 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 58.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 59: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 59 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 59.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 66: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 66 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 66.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>11</td>
+            <td>2023-12-21</td>
+            <td>HPV genotype 68: Undetected (no infection found)</td>
+            <td>No evidence of HPV Type 68 which is associated with cervical cancer risk.</td>
+            <td>Low Risk for cervical cancer related to HPV 68.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>12</td>
+            <td>2023-06-12</td>
+            <td>Cholesterol (H)</td>
+            <td>Elevated cholesterol levels can increase the risk of cardiovascular diseases.</td>
+            <td>Moderate to high risk depending on other risk factors.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>12</td>
+            <td>2023-06-12</td>
+            <td>HDL (H)</td>
+            <td>High levels of HDL cholesterol are generally considered protective against heart disease.</td>
+            <td>Low risk associated with high HDL levels.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>12</td>
+            <td>2023-06-12</td>
+            <td>Creatinine (L)</td>
+            <td>Low creatinine levels may indicate low muscle mass or other health issues.</td>
+            <td>Possible kidney issues or undernutrition.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>Hemoglobin (Hb) level</td>
+            <td>Normal level within reference range (12.1-17.2 gm%)</td>
+            <td>Low risk for anemia.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>Hematocrit (Hct) level</td>
+            <td>Normal level at 36%</td>
+            <td>Low risk for dehydration or blood loss.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>White blood cell (WBC) count</td>
+            <td>Normal count at 5080 cells/ul</td>
+            <td>Low risk for infection.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>Neutrophil percentage</td>
+            <td>Normal percentage at 61%</td>
+            <td>Low risk for bacterial infection.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>Lymphocyte percentage</td>
+            <td>Normal percentage at 35%</td>
+            <td>Low risk for viral infection.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>13</td>
+            <td>12-06-2023</td>
+            <td>Platelet count</td>
+            <td>Normal count at 265 x 10^3/ul</td>
+            <td>Low risk for bleeding disorders.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>14</td>
+            <td>12-06-2023</td>
+            <td>Anti HBS</td>
+            <td>18.43 mlU/ml, below the reference threshold of 10 mIU/ml which indicates lack of sufficient immunity against hepatitis B.</td>
+            <td>Potential risk for hepatitis B due to insufficient immunity.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>14</td>
+            <td>12-06-2023</td>
+            <td>Vitamin D Total</td>
+            <td>26.5 ng/ml, indicating a deficiency as compared to the reference range of 30.000 - 100.000 ng/ml.</td>
+            <td>Increased risk of osteoporosis and related health issues due to Vitamin D deficiency.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>14</td>
+            <td>12-06-2023</td>
+            <td>HBs Ag</td>
+            <td>Negative, which indicates no hepatitis B infection.</td>
+            <td>Low risk for hepatitis B infection.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>14</td>
+            <td>12-06-2023</td>
+            <td>Anti HCV</td>
+            <td>Negative, indicating no hepatitis C infection.</td>
+            <td>Low risk for hepatitis C infection.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>15</td>
+            <td>12-06-2023</td>
+            <td>Anti HAV IgM</td>
+            <td>Negative result indicates no current Hepatitis A infection</td>
+            <td>Low risk for Hepatitis A infection based on this test</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>16</td>
+            <td>12/06/2023</td>
+            <td>No abnormal opacity in both lungs is seen, mild scoliosis noted.</td>
+            <td>No active chest disease, normal heart size and mediastinum.</td>
+            <td>None apparent.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>16</td>
+            <td>12/06/2023</td>
+            <td>Multiple cysts scattering in the liver (about 0.5-4.4 cm).</td>
+            <td>Potential liver lesions may require monitoring or further investigation.</td>
+            <td>Risk of liver disease or complications from cysts.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>16</td>
+            <td>12/06/2023</td>
+            <td>A 0.5-cm hypoechonodule in the gallbladder, follow up advised.</td>
+            <td>Potential gallbladder pathology may need to be assessed further.</td>
+            <td>Possibility of gallbladder disease.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>16</td>
+            <td>12/06/2023</td>
+            <td>A 0.9-cm cyst at lower pole left kidney, along with a 0.3-cm bright lesion possibly renal stone and a 0.5-cm hyperechoic lesion possibly hemangiomyolipoma or hemorrhagic cyst.</td>
+            <td>Potential kidney pathology, including cysts or stones, may need monitoring or intervention.</td>
+            <td>Risk of kidney-related issues, urinary obstruction, or complications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>17</td>
+            <td>12/06/2023</td>
+            <td>Evidence of bilateral augmentation mammoplasties and intact prosthesis sacs; heterogeneously dense fibroglandular tissue noted. No suspicious mass or lesions identified.</td>
+            <td>Presence of augmentation mammoplasties may obscure detection of some abnormalities in mammography.</td>
+            <td>No immediate risk identified, routine surveillance needed.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>17</td>
+            <td>12/06/2023</td>
+            <td>Additional ultrasound shows no solid mass or cystic lesion in both breasts.</td>
+            <td>No findings indicative of malignancy, ensuring breast health as of the date of examination.</td>
+            <td>Minimal risk; regular self-examinations and clinical follow-ups recommended.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>18</td>
+            <td>12/06/2023</td>
+            <td>Normal sinus rhythm, Possible Anterior infarct, age undetermined</td>
+            <td>Requires monitoring and further cardiac evaluation due to possible infarction.</td>
+            <td>Increased risk of cardiac events due to potential heart damage.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>18</td>
+            <td>12/06/2023</td>
+            <td>Abnormal ECG results with QT/QTcBaz of 382/418 ms</td>
+            <td>QT prolongation can lead to serious arrhythmias.</td>
+            <td>Risk of torsades de pointes and other cardiac arrhythmias.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>18</td>
+            <td>12/06/2023</td>
+            <td>Presence of pacemaker</td>
+            <td>Indicates pre-existing heart condition requiring ongoing management.</td>
+            <td>Potential complications related to the pacemaker functioning.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>19</td>
+            <td>20/06/2566</td>
+            <td>Initial health examination revealed normal assessment: No acute risks or conditions were noted. Patient is well-oriented and assessed as having no risk of suicide, falls, or other medical emergencies.</td>
+            <td>The patient's health appears stable with no significant findings or complications.</td>
+            <td>Low risk as no chronic diseases or acute health issues were identified.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>19</td>
+            <td>20/06/2566</td>
+            <td>No family history of chronic diseases reported.</td>
+            <td>Family health history does not indicate hereditary risks, possibly reducing the need for specialized screenings.</td>
+            <td>Minimal risk for inherited health conditions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>19</td>
+            <td>20/06/2566</td>
+            <td>Allergy assessment showed no known drug, food, or other allergies (NKA).</td>
+            <td>No restrictions for medication or treatment due to allergies.</td>
+            <td>Very low risk of allergic reactions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>19</td>
+            <td>20/06/2566</td>
+            <td>Vision assessment results in normal ranges, indicating no concerns for vision impairment.</td>
+            <td>Patient maintains good vision, should not require further optometric intervention.</td>
+            <td>Negligible risk of vision-related health issues.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Right Eye Refraction</td>
+            <td>Mild myopia with astigmatism</td>
+            <td>Low risk of vision impairment</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Left Eye Refraction</td>
+            <td>Moderate myopia with mild astigmatism</td>
+            <td>Moderate risk of vision impairment</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Keratometry Right Eye</td>
+            <td>Slight irregularity in corneal curvature</td>
+            <td>Low risk of complications</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Keratometry Left Eye</td>
+            <td>Normal corneal curvature with slight astigmatism</td>
+            <td>Low risk of complications</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Intraocular Pressure (IOP) Right Eye</td>
+            <td>Slightly low IOP</td>
+            <td>Low risk of glaucoma</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Intraocular Pressure (IOP) Left Eye</td>
+            <td>Slightly low IOP</td>
+            <td>Low risk of glaucoma</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Central Corneal Thickness (CCT) Right Eye</td>
+            <td>Normal corneal thickness</td>
+            <td>Low risk of complications</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>20</td>
+            <td>20/06/2023</td>
+            <td>Central Corneal Thickness (CCT) Left Eye</td>
+            <td>Normal corneal thickness</td>
+            <td>Low risk of complications</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>21</td>
+            <td>20/06/2023</td>
+            <td>Patient is a 39.7 year old female with no significant past medical history. She presents for a routine check-up and requests a medical certificate.</td>
+            <td>Normal assessment, no acute issues detected. Patient appears stable with no immediate health concerns.</td>
+            <td>Low risk, routine check-up with no alarming symptoms reported.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>21</td>
+            <td>20/06/2023</td>
+            <td>Nursing assessment and vital signs indicate stable condition: Temperature 36.5°C, Heart Rate 98 bpm, Respiratory Rate 30/min, Blood Pressure 126/53 mmHg, Oxygen Saturation 97%, Weight 51 kg, Height 160 cm, BMI 19.9.</td>
+            <td>Stable vital signs indicate no immediate health threats.</td>
+            <td>Continued monitoring is advised due to slightly elevated respiratory rate.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>21</td>
+            <td>20/06/2023</td>
+            <td>Family history shows no chronic illnesses among family members, indicating low hereditary risks.</td>
+            <td>No significant family medical history to report.</td>
+            <td>Minimal risk for hereditary conditions.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>21</td>
+            <td>20/06/2023</td>
+            <td>Consultation revealed a diagnosis of multiple liver issues, further assessment and monitoring required.</td>
+            <td>Diagnosis of liver issues could indicate underlying health challenges that need continuous evaluation.</td>
+            <td>Medium risk for potential liver-related complications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>22</td>
+            <td>20/06/2566</td>
+            <td>Initial screening and assessment in outpatient department. Patient has no chronic diseases and normal vitals.</td>
+            <td>Patient is in general health without any significant underlying conditions noted during the initial assessment.</td>
+            <td>Low risk due to the absence of chronic diseases or acute symptoms at the time of assessment.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>22</td>
+            <td>20/06/2566</td>
+            <td>Identification of potential colonic issues including colonic polyp.</td>
+            <td>Discovery of a colonic polyp could indicate the risk of further gastrointestinal complications.</td>
+            <td>Moderate risk for colorectal issues, requiring further diagnostic evaluation.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>22</td>
+            <td>20/06/2566</td>
+            <td>Psychological and social assessments conducted; no immediate concerns identified.</td>
+            <td>Patient is assessed as stable psychologically with no imminent risk of self-harm.</td>
+            <td>Low risk for psychological concerns.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>22</td>
+            <td>20/06/2566</td>
+            <td>Family history noting absence of chronic diseases.</td>
+            <td>Reduced concern for hereditary conditions affecting the patient.</td>
+            <td>Low risk based on family medical history.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>22</td>
+            <td>20/06/2566</td>
+            <td>Allergy assessment shows no known drug or food allergies.</td>
+            <td>Safer prescribing and treatment plan without the need for allergy considerations.</td>
+            <td>Low risk regarding allergic reactions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Vital Signs Assessment</td>
+            <td>The patient's vital signs are within normal limits, indicating stable health.</td>
+            <td>Low risk for acute health issues.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Nursing Assessment: Set Gastroscopy + Colonoscopy</td>
+            <td>Indicates a planned gastroscopy and colonoscopy.</td>
+            <td>Medium risk associated with procedural complications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Physician Exam: Non-erosive gastritis diagnosed</td>
+            <td>The diagnosis of non-erosive gastritis may require lifestyle changes and medication management.</td>
+            <td>Low risk if managed properly.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>3 small sessile polyps found during examination</td>
+            <td>Presence of polyps may require monitoring or further investigation to rule out malignancy.</td>
+            <td>Medium risk as polyps can be precursors to cancer.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Current Medication: Dexilant prescribed</td>
+            <td>Indicates a treatment plan for gastritis.</td>
+            <td>Low risk if medications are taken as prescribed.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Follow-up appointment scheduled</td>
+            <td>Ensures ongoing monitoring and management of health conditions.</td>
+            <td>Low risk if patient adheres to follow-up.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>Family History: No chronic diseases reported</td>
+            <td>Indicates a lower genetic risk for chronic conditions.</td>
+            <td>Low risk due to absent family history of chronic diseases.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>23</td>
+            <td>27/06/2566</td>
+            <td>No known allergies reported</td>
+            <td>Minimizes risk for allergic reactions to medications.</td>
+            <td>Very low risk.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>24</td>
+            <td>27/06/2566</td>
+            <td>Endoscopic findings of stomach and duodenum with polypectomy and mild gastritis.</td>
+            <td>Identification and removal of polyps, management of mild gastritis.</td>
+            <td>Potential for bleeding and need for further treatment based on histopathology results.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>24</td>
+            <td>27/06/2566</td>
+            <td>Polypectomy of three small sessile polyps in stomach.</td>
+            <td>Removal of potentially precancerous polyps, reducing the risk of gastric cancer.</td>
+            <td>Possibility of complications such as bleeding or perforation.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>24</td>
+            <td>27/06/2566</td>
+            <td>Histopathology performed on excised polyps and random stomach biopsy.</td>
+            <td>Determining the nature of the polyps and underlying gastric pathology.</td>
+            <td>Delayed treatment pending histological analysis results.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>24</td>
+            <td>27/06/2566</td>
+            <td>Positive rapid urease test.</td>
+            <td>Indicates presence of Helicobacter pylori, suggests bacterial infection contributing to gastritis.</td>
+            <td>May require antibiotic treatment to resolve infection.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>24</td>
+            <td>27/06/2566</td>
+            <td>Findings of mild erythematous mucosa in antrum indicating inflammation.</td>
+            <td>Identification of antral gastritis, guiding medical management.</td>
+            <td>If untreated, potential progression to more severe gastric conditions.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>25</td>
+            <td>2024-06-03</td>
+            <td>EsophagoGastroDuodenoscopy Report for a 39-year-old female with surgical history.</td>
+            <td>Potential complications from previous surgery may affect findings during the endoscopy.</td>
+            <td>Increased risk of complications due to prior interventions, such as hemoclip placement.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>26</td>
+            <td>27/06/2566</td>
+            <td>Colonoscopy procedure performed with normal findings in all evaluated areas.</td>
+            <td>The colonoscopy returned unremarkable findings, indicating no abnormalities detected within the colon.</td>
+            <td>Possible procedural complications include colononic redundancy and estimated blood loss.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>26</td>
+            <td>27/06/2566</td>
+            <td>Patient underwent the procedure due to a follow-up of previously detected polyps.</td>
+            <td>The follow-up indicated that previous findings were likely lesions or polyps that required monitoring.</td>
+            <td>Risks associated with polyps may include the potential for malignancy, though current findings were normal.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>26</td>
+            <td>27/06/2566</td>
+            <td>Bowel preparation regimen used was Picoprep with fair results.</td>
+            <td>Fair bowel preparation typically ensures a clearer view during colonoscopy, leading to better diagnostic outcomes.</td>
+            <td>Inadequate bowel preparation can lead to missed lesions or polyps.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>26</td>
+            <td>27/06/2566</td>
+            <td>Patient’s consent obtained after discussing the nature and possible complications of the procedure.</td>
+            <td>Having informed consent is essential for procedural legality and patient understanding.</td>
+            <td>Failure to obtain consent could have legal and ethical implications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>27</td>
+            <td>2024-01-03</td>
+            <td>Colonoscopy performed on a 39-year-old female patient to assess the condition of the large intestine.</td>
+            <td>Normal findings throughout the descending colon, transverse colon, ascending colon, cecum, and terminal ileum.</td>
+            <td>No unusual findings or complications reported.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>28</td>
+            <td>27-06-2023</td>
+            <td>Pathological examination results pending original report from Ramkhamhaeng Hospital.</td>
+            <td>Evaluation of patient's health based on pathological findings is crucial for diagnosis and treatment.</td>
+            <td>Potential delay in diagnosis if results are inconclusive or not available.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>29</td>
+            <td>27.06.2023</td>
+            <td>Erosive gastritis with reactive gastropathy, possibly induced by NSAIDs or medications, bile reflux, or vascular causes.</td>
+            <td>Potential irritation and inflammation of the gastric mucosa leading to discomfort and digestive issues.</td>
+            <td>Risk of complications due to prolonged gastritis such as bleeding or progression to more severe gastric conditions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>29</td>
+            <td>27.06.2023</td>
+            <td>Fundic gland polyps found in gastric mucosa.</td>
+            <td>Generally benign and typically do not progress to malignancy, indicating low risk.</td>
+            <td>Observation may be needed to ensure no changes over time.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>29</td>
+            <td>27.06.2023</td>
+            <td>Absence of H. pylori and intestinal metaplasia.</td>
+            <td>Negative for chronic infection and precancerous changes, suggesting a favorable histological profile for the stomach.</td>
+            <td>Continued monitoring necessary, but immediate risk factors are low.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>30</td>
+            <td>29-06-2023</td>
+            <td>Request for HG Test and Cytology Result</td>
+            <td>Necessary to determine the presence of any abnormalities in the sample tested.</td>
+            <td>If abnormalities are found, further testing or treatments may be required.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>31</td>
+            <td>27/05/2566</td>
+            <td>Emergency triage level 3, assessed as a non-severe emergency patient. Requested medical certificate.</td>
+            <td>Non-severe condition, no immediate threat to life.</td>
+            <td>Low risk of deterioration.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>31</td>
+            <td>27/05/2566</td>
+            <td>Vital signs indicate stable condition with normal blood oxygen saturation (100%) and having a BMI of 19.65 kg/m2, indicating a normal weight.</td>
+            <td>Stable vitals suggest good health status at the time of visit.</td>
+            <td>Low risk of acute health issues.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>31</td>
+            <td>27/05/2566</td>
+            <td>No chronic diseases reported, however, history indicates a potential family history of chronic conditions, but none specified in detail.</td>
+            <td>Patient reported no chronic diseases and appeared well oriented with normal psychosocial assessments.</td>
+            <td>Potential risk due to unspecified family history could indicate possible future health issues.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>31</td>
+            <td>27/05/2566</td>
+            <td>Patient has indicated a need for further diagnosis and treatment plans, with a noted agreement with the planned treatment.</td>
+            <td>Patient compliance is crucial for effective treatment and recovery.</td>
+            <td>Routine risk associated with the healing process and treatment adherence.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>31</td>
+            <td>27/05/2566</td>
+            <td>Current medication status is ambiguous as no specific adjustments have been documented, leading to potential misunderstanding in ongoing treatment.</td>
+            <td>Lack of clarity in medication could lead to treatment non-compliance or medication errors.</td>
+            <td>High risk for potential medication mismanagement.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>32</td>
+            <td>27-06-2023</td>
+            <td>Save EDTA blood 1 tube</td>
+            <td>Sample for laboratory testing.</td>
+            <td>No significant risk identified.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>32</td>
+            <td>27-06-2023</td>
+            <td>Save Clotted blood 1 tube</td>
+            <td>Sample for laboratory testing.</td>
+            <td>No significant risk identified.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>33</td>
+            <td>27-06-2023</td>
+            <td>Covid-19 Antigen Test</td>
+            <td>Negative result indicates that the patient is not currently infected with Covid-19.</td>
+            <td>Low risk for current Covid-19 infection.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Emergency Patient, not critical level 3.</td>
+            <td>Significant due to the nature of the visit but not critical</td>
+            <td>Potential for serious condition if not monitored, though stable at the time of assessment.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Blood Pressure: 138/72 mmHg, Stable.</td>
+            <td>Indicates controlled hypertension</td>
+            <td>Ongoing monitoring required to prevent escalation.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>BMI: 30.42 Kg/m², indicates obesity.</td>
+            <td>Increased risk for associated health problems such as diabetes and heart disease</td>
+            <td>Requires dietary and lifestyle modifications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Temperature: 36.7 °C, stable.</td>
+            <td>Normal body temperature</td>
+            <td>No immediate health concerns.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Heart Rate: 90 beats/min, within normal limits.</td>
+            <td>Normal cardiovascular function</td>
+            <td>Should be monitored for any future irregularities.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Respiratory Rate: 20 breaths/min, stable.</td>
+            <td>Indicates good respiratory health</td>
+            <td>Requires continued observation for underlying respiratory issues.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Oxygen Saturation: 99%, normal limit.</td>
+            <td>Indicates good pulmonary function</td>
+            <td>Low risk as current levels are acceptable.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>34</td>
+            <td>2023-07-05</td>
+            <td>Height: 160 cm, Weight: 51.5 kg.</td>
+            <td>Normal anthropometric measurements although BMI suggests overweight.</td>
+            <td>Emphasis on obesity-related health counseling.</td>
+        </tr>
+        <tr class="risk-row risk-high">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Emergency patient with crisis level care.</td>
+            <td>Patient is in need of immediate medical attention and evaluation due to critical condition.</td>
+            <td>Possible deterioration without timely medical intervention.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Vital signs assessment shows normal temperature and heart rate but slightly elevated BP.</td>
+            <td>Stable general status but requires monitoring due to borderline hypertension.</td>
+            <td>Risk of cardiovascular events if BP remains elevated.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Psychological assessment indicates no special spiritual/cultural support needed, yet there is an acute need for psychological support regarding sudden circumstances.</td>
+            <td>Patient may experience increased stress and anxiety without appropriate support.</td>
+            <td>Risk of psychological distress in the absence of support.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Family history of chronic diseases is absent, indicating low genetic predisposition to major illnesses.</td>
+            <td>Less concern for hereditary factors affecting current health status.</td>
+            <td>Minimal risk from family history.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Ultrasound results indicate BIRAD 2 classification, suggesting a benign condition.</td>
+            <td>Positive outcome as no malignancy is suggested.</td>
+            <td>Low risk of complications related to identified benign conditions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>No allergies reported, which simplifies medication management.</td>
+            <td>Reduced risk of adverse drug reactions.</td>
+            <td>Negligible risk regarding medication interactions.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>35</td>
+            <td>2023-08-26</td>
+            <td>Follow-up is required for muscle tension and related conditions.</td>
+            <td>Continued monitoring and management are necessary to avoid complications.</td>
+            <td>Potential increase in symptoms without proper follow-up.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>36</td>
+            <td>2023-11-08</td>
+            <td>Patient presents with multiple liver cysts and a 0.5 cm polyp.</td>
+            <td>Presence of multiple liver cysts could indicate underlying liver issues and the polyp may require monitoring or further investigation.</td>
+            <td>Risk of complications related to liver cysts and polyps, including pain or obstruction, and potential for malignant transformation in polyps.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>36</td>
+            <td>2023-11-08</td>
+            <td>No significant alcohol use or known allergies identified.</td>
+            <td>Reduced risk of complications from allergies or alcohol-related liver disease.</td>
+            <td>Continued monitoring is required; any new medications or changes in health must be evaluated.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>36</td>
+            <td>2023-11-08</td>
+            <td>No chronic diseases reported by the patient, such as diabetes or hypertension.</td>
+            <td>Patient’s overall health seems stable without chronic conditions that could complicate liver issues.</td>
+            <td>Regular health check-ups are essential to spot any potentially developing chronic issues.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>36</td>
+            <td>2023-11-08</td>
+            <td>Family history reveals no chronic diseases noted in the family.</td>
+            <td>Lower hereditary risk factors for chronic diseases affecting the liver.</td>
+            <td>Continuous assessment of family health history is encouraged for potential future risks.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>37</td>
+            <td>08/11/2023</td>
+            <td>Multiple cysts scattering in the liver (about 0.8-4.0 cm), unchanged.</td>
+            <td>Presence of liver cysts can indicate underlying liver conditions but are often benign with no immediate impact on liver function.</td>
+            <td>Requires monitoring for changes; potential for confusion with other lesions.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>37</td>
+            <td>08/11/2023</td>
+            <td>No change of a 0.5-cm hypoechonodule in the gallbladder wall, suggestive of gallbladder polyp.</td>
+            <td>Gallbladder polyp may not cause symptoms but could necessitate further evaluation to rule out malignancy.</td>
+            <td>Monitoring is advised as there is a potential risk of malignancy associated with gallbladder polyps.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>37</td>
+            <td>08/11/2023</td>
+            <td>A 1.3-cm cyst at lower pole left kidney, unchanged.</td>
+            <td>Unchanged cyst suggests it remains stable; typically benign.</td>
+            <td>Continued follow-up recommended to ensure it does not grow or cause issues.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>37</td>
+            <td>08/11/2023</td>
+            <td>0.5-cm bright lesion at lower pole left kidney, possibly renal stone.</td>
+            <td>Presence of a renal stone can lead to urinary obstruction or pain.</td>
+            <td>May require treatment depending on symptoms and size.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>37</td>
+            <td>08/11/2023</td>
+            <td>0.6-cm hyperechoic lesion at lower pole left kidney, possibly hemangiomyolipoma.</td>
+            <td>Typically benign tumors but can bleed or grow in size.</td>
+            <td>Monitoring necessary; surgery may be required if symptomatic.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>38</td>
+            <td>20/12/2023</td>
+            <td>Patient is a 40.1-year-old female presenting for gynecological evaluation.</td>
+            <td>Regular health check with no immediate complications noted.</td>
+            <td>Slight risks associated with gynecological examinations.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>38</td>
+            <td>20/12/2023</td>
+            <td>Nursing assessment indicates a pain score of 6.</td>
+            <td>Moderate pain reported by the patient which should be managed.</td>
+            <td>Potential complications if pain management is not addressed.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>38</td>
+            <td>20/12/2023</td>
+            <td>Family history shows no chronic illnesses listed.</td>
+            <td>Low hereditary risk factors identified.</td>
+            <td>Patient still needs to be mindful of personal health factors.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>38</td>
+            <td>20/12/2023</td>
+            <td>She has no significant past medical history (N/A for DM, HT, etc.).</td>
+            <td>Indicates good overall health status.</td>
+            <td>No known risks but requires regular monitoring for preventative care.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>39</td>
+            <td>24/04/2567</td>
+            <td>Patient presented for medical assessment with multiple gallbladder polyps (0.3 cm, 0.4 cm) and a need for monitoring without current treatment changes.</td>
+            <td>Possible risk of gallbladder complications due to polyps.</td>
+            <td>Risk of gallbladder cancer if polyps are dysplastic, requires regular monitoring.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>39</td>
+            <td>24/04/2567</td>
+            <td>Patient has no significant past medical history except for potential family history of chronic diseases (no specifics provided).</td>
+            <td>Consideration for genetic predispositions to chronic conditions in family history.</td>
+            <td>Increased risk for future health issues due to family genetic factors.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>39</td>
+            <td>24/04/2567</td>
+            <td>No allergies reported for drugs, food, or other substances, which decreases the likelihood of allergic reactions during treatment.</td>
+            <td>Reduced complications from treatment due to lack of known allergies.</td>
+            <td>Minimal risk for adverse drug reactions.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>39</td>
+            <td>24/04/2567</td>
+            <td>Nutrition screening marked as normal, indicating no dietary concerns affecting health status.</td>
+            <td>Patient generally maintains a healthy nutritional status supporting overall health and recovery.</td>
+            <td>Low risk of malnutrition or dietary-related complications.</td>
+        </tr>
+        <tr class="risk-row risk-low">
+            <td>39</td>
+            <td>24/04/2567</td>
+            <td>Psychological assessment indicates patient is well-cooperative with no current suicidal ideation.</td>
+            <td>Encourages adherence to treatment plans due to positive mental state.</td>
+            <td>Minimal risk of non-compliance due to psychological factors.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>40</td>
+            <td>24/04/2024</td>
+            <td>Multiple cysts in the liver, measuring between 0.4-4.3 cm.</td>
+            <td>Presence of multiple cysts may indicate a benign condition but requires monitoring.</td>
+            <td>Potential for complications if cysts become large or symptomatic.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>40</td>
+            <td>24/04/2024</td>
+            <td>Two nodules in the gallbladder wall, measuring 0.3 cm and 0.4 cm, suggestive of gallbladder polyp.</td>
+            <td>Indicates possible gallbladder pathology that may require further evaluation.</td>
+            <td>Risk of gallbladder related issues or malignancy.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>40</td>
+            <td>24/04/2024</td>
+            <td>Decreased size of a cyst at lower pole of left kidney (now 0.9 cm).</td>
+            <td>Decreased size may indicate resolution of the cyst or less concern for complications.</td>
+            <td>Generally low, but ongoing monitoring is necessary.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>40</td>
+            <td>24/04/2024</td>
+            <td>A bright lesion at the lower pole of left kidney (0.3 cm), possibly renal stone or calcified cyst wall.</td>
+            <td>Requires further assessment to determine nature of the lesion.</td>
+            <td>Potential for renal complications depending on the diagnosis.</td>
+        </tr>
+        <tr class="risk-row risk-medium">
+            <td>40</td>
+            <td>24/04/2024</td>
+            <td>Stable 0.6-cm hyperechoic lesion at lower pole of left kidney, possibly a hemangiomyolipoma.</td>
+            <td>No significant change noted; typically benign.</td>
+            <td>Generally low, but requires continued monitoring.</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+```
