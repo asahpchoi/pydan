@@ -10,12 +10,21 @@ from colorama import Fore
 
 class report_item(BaseModel):
     check_date: str
+    mesurement: str
+    test_conducted: str
     description: str
     impact: str
     risk: str
 #print(content)
+class _patient_info(BaseModel):
+    name: str
+    age: str
+    gender: str
+    height: str
+    weight: str
 
 class reports(BaseModel):
+    patient_info: _patient_info
     items: list[report_item]
 
 
@@ -26,14 +35,14 @@ def get_enhanced_prompt(prompt: str) -> str:
     """
 
     prompt_agent = Agent(
-        model="openai:gpt-4o-mini",
+        model="google-gla:gemini-2.0-flash-exp",
         system_prompt=system_prompt
     )
 
     result = prompt_agent.run_sync(prompt)
     return result.data
 
-def get_report_items(page_number: int, content: str):
+def get_report_items(page_number: int, content: str) -> str:
     assessment_agent = Agent(
         model="openai:gpt-4o-mini",
         system_prompt=get_enhanced_prompt("""
@@ -51,7 +60,7 @@ def get_report_items(page_number: int, content: str):
 
     return j_result
 
-def gen_report(content: str):
+def gen_report(content: str) -> str:
     prompt = get_enhanced_prompt("""
             you are a html programmer, 
             you can based on the content provided to generate an html report, no javascript allowed,
@@ -75,7 +84,7 @@ def gen_report(content: str):
     with codecs.open(f"optimized.html", "w", "utf-8") as f:
         f.write(html.data)
 
-def get_summary_from_db():
+def get_summary_from_db() -> str:
     rows = getallrows()
     i = 1
     contents = ""
@@ -83,11 +92,14 @@ def get_summary_from_db():
         print(c[0])
         content = get_report_items(i, c[0])
         contents = f"page{i}: {contents}\n{content}"
-        i = i+1
+        i = i + 1
+    return contents
 
-
+def get_summary_from_text() -> str:
+    with codecs.open(f"conso.txt", "r", "utf-8") as f:
+        contents = f.readlines()
+    return contents
 #===============================================================================
 
-with codecs.open(f"conso.txt", "r", "utf-8") as f:
-    contents = f.readlines()
+contents = get_summary_from_db()
 gen_report(contents)
