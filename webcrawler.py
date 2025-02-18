@@ -27,15 +27,21 @@ async def get_content_and_links(url: str):
 
 async def crawl_link_with_topic(url: str, topic: str, level: int):
     results = []
-    result = await get_content_and_links(url)
-    crawl_agent = Agent("google-gla:gemini-2.0-flash-exp",
-                            system_prompt="you are a link selected agent, and you can filter out the links based on the provided topics",
-                            result_type=links_type
-                        )
-    jlinks = json.dumps(result.links, ensure_ascii=False)
- 
-    filtered_links =  await crawl_agent.run(f"links:{jlinks}, topic:{topic}")
-    print(Fore.RED, f"links to crawl: {filtered_links.data.link_item.count(0)}")
+    result = await get_content_and_links(url)   
+    jlinks = json.dumps(result.links["external"], ensure_ascii=False)
+    print(Fore.GREEN, jlinks)
+    
+    link_filter_agent = Agent("openai:gpt-4o-mini",
+                        system_prompt="""
+                        you are a link selected agent, 
+                        and you can filter out the links based on the provided topic,
+                        only filter out links start with 'http://' or 'https://'
+                        exclude all links start with 'file:'
+                        """,
+                        result_type=links_type
+                    )
+    filtered_links =  await link_filter_agent.run(f"links:{jlinks}, topic:{topic}")
+    print(Fore.YELLOW,filtered_links.data)
 
     if level > 0:
         for link in filtered_links.data.link_item:
@@ -46,7 +52,7 @@ async def crawl_link_with_topic(url: str, topic: str, level: int):
     return results
 
 async def main():
-    results = await crawl_link_with_topic("https://www.kanen.ncgm.go.jp/cont/010/c_gata.html","fatty liver", 1)
-    print(results)
+    results = await crawl_link_with_topic("file://links.htm","貧血一般", 1)
+    print(Fore.CYAN, results)
  
 asyncio.run(main())
